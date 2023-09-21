@@ -4,14 +4,13 @@ var buttonColors= ["red","blue", "green","yellow"];
 var level = 0;
 var clickStep = 1 ;
 
-$(".btn").click(function(){clickHandler(this);});
+
 
 
 if ( level === 0 ) {
     $(document).on("keypress",function() {nextSequence(); $(document).off("keypress");})
-    
+    $(".btn").click(function(){alert("Keyboard first!")});
 }
-
 
 
 function clickHandler(clickedButton){
@@ -35,6 +34,8 @@ function gameOver() {
     $("body").addClass("game-over");
     setTimeout(function() { $("body").removeClass("game-over");},100);
     level = 0 ;
+    $(".btn").unbind();
+    $(".btn").click(function(){alert("Keyboard first!")});
     $("h1").text("Press A Key to Start");
     $(document).on("keypress",function() {nextSequence(); $(document).off("keypress");})
     gamePattern = [];
@@ -43,6 +44,10 @@ function gameOver() {
 }
 
 function nextSequence() {
+    if (level === 0){
+        $(".btn").unbind();
+        $(".btn").click(function(){clickHandler(this);});
+    }
     var randomNumber = Math.floor(Math.random() * 3 ) ;
     var randomChosenColor = buttonColors[randomNumber];
     gamePattern.push(randomChosenColor);
